@@ -4,7 +4,7 @@ char	*ft_strstr(char *str, char *to_find)
 	int	j;
 
 	i = 0;
-	if (to_find == NULL)
+	if (!to_find[i])
 		return (str);
 	while (str[i])
 	{
@@ -19,3 +19,4 @@ char	*ft_strstr(char *str, char *to_find)
 	}
 	return (NULL);
 }
+
