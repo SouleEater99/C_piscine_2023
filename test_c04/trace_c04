@@ -1,0 +1,167 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                Welcome to Francinette, a 42 tester framework!                ║
+╚═══════════════════════╦══════════════════════════════╦═══════════════════════╝
+                        ║              c04             ║
+                        ╚══════════════════════════════╝
+═════════════════════════════════ Testing ex00 ═════════════════════════════════
+
+Executing: norminette -R CheckForbiddenSourceHeader ft_strlen.c:
+ft_strlen.c: OK!
+
+Executing: gcc -Wall -Wextra -Werror main.c ft_strlen.c:
+gcc: OK!
+
+Executing: ./a.out | cat -e:
+len of: '': 0$
+len of: 'sggdsdsg': 8$
+len of: 'asd^Ksfg': 7$
+
+
+Executing: diff --text expected out:
+diff: No differences
+
+══════════════════════════════    Ex00 passed!    ══════════════════════════════
+
+
+═════════════════════════════════ Testing ex01 ═════════════════════════════════
+
+Executing: norminette -R CheckForbiddenSourceHeader ft_putstr.c:
+ft_putstr.c: Error!
+Error: SPACE_BEFORE_FUNC    (line:  26, col:   4):	space before function name
+Error: NO_ARGS_VOID         (line:  26, col:  10):	Empty function argument requires void
+
+Executing: gcc -Wall -Wextra -Werror main.c ft_putstr.c:
+Problem compiling files
+
+══════════════════════════════    Ex01 failed!    ══════════════════════════════
+
+
+═════════════════════════════════ Testing ex02 ═════════════════════════════════
+
+Executing: norminette -R CheckForbiddenSourceHeader ft_putnbr.c:
+ft_putnbr.c: OK!
+
+Executing: gcc -Wall -Wextra -Werror main.c ft_putnbr.c:
+gcc: OK!
+
+Executing: ./a.out | cat -e:
+0$
+10$
+-10$
+2147483647$
+-2147483648$
+
+
+Executing: diff --text expected out:
+diff: No differences
+
+══════════════════════════════    Ex02 passed!    ══════════════════════════════
+
+
+═════════════════════════════════ Testing ex03 ═════════════════════════════════
+
+Executing: norminette -R CheckForbiddenSourceHeader ft_atoi.c:
+ft_atoi.c: OK!
+
+Executing: gcc -Wall -Wextra -Werror main.c ft_atoi.c:
+gcc: OK!
+
+Executing: ./a.out | cat -e:
+23$
+-12341$
+-123413$
+2147483647$
+-2147483648$
+0$
+
+
+Executing: diff --text expected out:
+diff: No differences
+
+══════════════════════════════    Ex03 passed!    ══════════════════════════════
+
+
+═════════════════════════════════ Testing ex04 ═════════════════════════════════
+
+Executing: norminette -R CheckForbiddenSourceHeader ft_putnbr_base.c:
+ft_putnbr_base.c: OK!
+
+Executing: gcc -Wall -Wextra -Werror main.c ft_putnbr_base.c:
+gcc: OK!
+
+Executing: ./a.out | cat -e:
+42:42$
+2a:2a$
+-2a:-2a$
+0:0$
+INT_MAX:7fffffff$
+INT_MAX:XEFnoY$
+INT_MIN:-80000000$
+-2143247366 : -~~~~~~~~'~~~~~~'~'~~~'''''''~~'$
+-1:-1$
+:$
+:$
+:$
+:17
+
+Executing: diff --text expected out:
+< expected, > your result
+13c13
+< :
+\ No newline at end of file
+---
+> :17
+\ No newline at end of file
+
+
+══════════════════════════════    Ex04 failed!    ══════════════════════════════
+
+
+═════════════════════════════════ Testing ex05 ═════════════════════════════════
+
+Executing: norminette -R CheckForbiddenSourceHeader ft_atoi_base.c:
+ft_atoi_base.c: OK!
+
+Executing: gcc -Wall -Wextra -Werror main.c ft_atoi_base.c:
+gcc: OK!
+
+Executing: ./a.out | cat -e:
+42:42$
+-42:-42$
+42:42$
+0:-42$
+0:-16$
+0:0$
+0:0$
+0:0$
+0:-12$
+2147483647 : 2147483647 (equals: 1)$
+-2147483648 : -2147483648 (equals: 1)$
+2147483647 : 0 (equals: 0)$
+-2143247366 : 8472562 (equals: 0)$
+
+
+Executing: diff --text expected out:
+< expected, > your result
+3a4,5
+> 0:-42$
+> 0:-16$
+7,9c9
+< 0:0$
+< 0:0$
+< 0:0$
+---
+> 0:-12$
+12,13c12,13
+< 2147483647 : 2147483647 (equals: 1)$
+< -2143247366 : -2143247366 (equals: 1)$
+---
+> 2147483647 : 0 (equals: 0)$
+> -2143247366 : 8472562 (equals: 0)$
+
+
+══════════════════════════════    Ex05 failed!    ══════════════════════════════
+
+
+Passed tests: ex00 ex02 ex03
+Failed tests: ex01 ex04 ex05
