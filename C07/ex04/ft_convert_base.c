@@ -18,12 +18,15 @@ int	check_bases(int check, char *base, char c)
 	i = 0;
 	if (check == 0)
 	{
+		if (ft_strlen(base) < 2)
+			return (0);
 		while (base[i])
 		{	
 			j = i + 1;
-
+			if (base[i] == '-' || base[i] == '+')
+				return (0);
 			while (base[j])
-				if (base[i] == '-' || base[i] == '+' || base[i] == base[j++])
+				if (base[i] == base[j++])
 					return (0);
 			i++;
 		}
@@ -43,10 +46,10 @@ int	check_bases(int check, char *base, char c)
 
 int	ft_atoi(char *str, char *base_f)
 {
-	int	i;
-	int	sign;
-	int	l_base;
-	int	sum;
+	long	i;
+	long	sign;
+	long	l_base;
+	long	sum;
 
 	i = 0;
 	sign = 1;
@@ -64,8 +67,8 @@ int	ft_atoi(char *str, char *base_f)
 
 void	ft_putnbr_base(int nbr, char *base, char *dest)
 {
-	int	n;
-	int	i;
+	long	n;
+	long	i;
 	char	tmp;
 
 	i = 0;
@@ -97,7 +100,7 @@ char	*ft_convert_base(char *nbr, char *base_form, char *base_to)
 
 	i = 0;
 	if (nbr == NULL || base_to == NULL || base_form == NULL
-		|| check_bases(0, base_form, '\0') == 0 
+			|| check_bases(0, base_form, '\0') == 0 
 			||check_bases(0 ,base_to, '\0') == 0)
 		return (NULL);
 	nb = ft_atoi(nbr, base_form);
@@ -108,10 +111,12 @@ char	*ft_convert_base(char *nbr, char *base_form, char *base_to)
 		nb = nb / ft_strlen(base_to);
 		i++;
 	}	
-	if ((result = (char *)malloc(sizeof(char) * (i + 1))) == NULL )
+	result = (char *)malloc(sizeof(char) * (i + 1));
+	if (result == NULL)
 		return (NULL);
 	nb = ft_atoi(nbr, base_form);
 	ft_putnbr_base(nb, base_to, result);
 	result[i] = '\0';
 	return (result);
 }
+
