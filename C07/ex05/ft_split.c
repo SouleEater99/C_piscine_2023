@@ -9,83 +9,86 @@ int	ft_is_charset(char c, char *charset)
 			return (1);
 		charset++;
 	}
+	if (c == '\0')
+		return (1);
 	return (0);
-}
-
-char	*ft_skip_charset(char *str, char *charset)
-{
-	while (*str && ft_is_charset(*str, charset) == 1)
-		str++;
-	return (str);		
 }
 
 int	ft_word_count(char *str, char *charset)
 {
-	int	count;
+	int	i;
+	int	words;
 
-	count = 0;
-	if (ft_is_charset(*str, charset) == 0)
-		count++;
-	while (*str)
+	words = 0;
+	i = 0;
+	while (str[i] != '\0')
 	{
-		if (ft_is_charset(*str, charset))
-		{
-			str = ft_skip_charset(str, charset);
-			if (ft_is_charset(*str, charset) == 0 && *str)
-				count++;
-		}
-		str++;
+		if (ft_is_charset(str[i + 1], charset) == 1
+				&& ft_is_charset(str[i], charset) == 0)
+			words++;
+		i++;
 	}
-	return (count);
+	return (words);
 }
 
-char	*ft_strdup(char *str, char *ptr,char **res, int index)
+void	ft_strcpy(char *dest, char *from, char *charset)
 {
 	int	i;
-	char	*dest;
 
-	i = (ptr - str) + 0;
-	dest = (char *)malloc(sizeof(char) * (i + 1));
-	if (dest == NULL)
-	{
-		while (index >= 0)
-			free(res[index--]);
-		free(res);
-		return (NULL);
-	}
 	i = 0;
-	while (str != ptr)
-		dest[i++] = *str++;
+	while (ft_is_charset(from[i], charset) == 0)
+	{
+		dest[i] = from[i];
+		i++;
+	}
 	dest[i] = '\0';
-	return (dest);
 }
+
+void	ft_strdup(char **result, char *str, char *charset)
+{
+	int		i;
+	int		j;
+	int		word;
+
+	word = 0;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_is_charset(str[i], charset) == 1)
+			i++;
+		else
+		{
+			j = 0;
+			while (ft_is_charset(str[i + j], charset) == 0)
+				j++;
+			result[word] = (char*)malloc(sizeof(char) * (j + 1));
+			ft_strcpy(result[word], str + i, charset);
+			i += j;
+			word++;
+		}
+	}
+}
+
 
 char	**ft_split(char *str, char *charset)
 {
-	int	i;
-	char	*ptr;
-	char	**res;
+	char	**result;
+	int		words;
 
-	if (str == NULL || charset == NULL) 
+	if (!str && !charset)
 		return (NULL);
-	str = ft_skip_charset(str, charset);
-	i = ft_word_count(str, charset);
-	res = (char **)malloc(sizeof(char *) * (i + 1));
-	if (res == NULL)
-		return (NULL);
-	res[i] = NULL;
-	i = 0;
-	while (*str)
-	{
-		ptr = str;
-		while (*ptr && ft_is_charset(*ptr, charset) == 0)
-			ptr++;
-		res[i] = ft_strdup(str, ptr,res,i);
-		str = ft_skip_charset(ptr, charset);
-		i++;
-	}
-	return (res);
+	words = ft_word_count(str, charset);
+	result = (char**)malloc(sizeof(char*) * (words + 1));
+	result[words] = 0;
+	ft_strdup(result, str, charset);
+	return (result);
 }
+
+
+
+
+
+
 
 /*
 
@@ -123,6 +126,3 @@ int main() {
 }
 
 */
-
-
-
